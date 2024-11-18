@@ -67,7 +67,7 @@ public class Controlador implements ActionListener {
 //Ventana Pais
         if (e.getSource() == vista.btnAgregar) {
             agregar();
-            vista.mostrarDatosC();        
+            vista.mostrarDatos();        
         }
         if (e.getSource() == vista.btnConsultar) {
             Consultar1();
@@ -224,6 +224,7 @@ public class Controlador implements ActionListener {
         if (r == 1) {
             JOptionPane.showMessageDialog(vista, "País agregado con éxito.");
             limpiar();
+            vista.mostrarDatos();
         } else {
             JOptionPane.showMessageDialog(vista, "Error al agregar el país.");
         }
@@ -303,28 +304,37 @@ public class Controlador implements ActionListener {
             i = i - 1;
         }
     }   
-    public void Eliminar(){
-        try{
-            String codigo = vista.txtCodigoPais.getText();
-            Pais p = new Pais();
-            
-            if(codigo.isEmpty()){
-                JOptionPane.showMessageDialog(vista, "Ingrese un codigo.","ERROR", JOptionPane.ERROR_MESSAGE);  
-            }
-            else
-            {
-                int r = paisOp.eliminar(codigo);
+    public void Eliminar() {
+    try {
+        String codigo = vista.txtCodigoPais.getText(); 
+
+        if (codigo.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Ingrese un código de país.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int idiomasEliminados = IdioOP.eliminarPorCodigoPais(codigo);
+        if (idiomasEliminados > 0) {
+            JOptionPane.showMessageDialog(vista, "Se eliminaron " + idiomasEliminados + " idiomas asociados.");
+        }
+     
+        int ciudadesEliminadas = CiuOp.eliminarPorCodigoPais(codigo);
+        if (ciudadesEliminadas > 0) {
+            JOptionPane.showMessageDialog(vista, "Se eliminaron " + ciudadesEliminadas + " ciudades asociadas.");
+        }
+
+        int r = paisOp.eliminar(codigo);
         if (r == 1) {
             JOptionPane.showMessageDialog(vista, "País eliminado con éxito.");
-            limpiar();
+            limpiar(); 
+            vista.mostrarDatos();
         } else {
-            JOptionPane.showMessageDialog(vista, "Error al agregar el país.");
+            JOptionPane.showMessageDialog(vista, "Error al eliminar el país.");
         }
-            }
-        }catch(Exception e){
-                JOptionPane.showMessageDialog(vista, "Error: " +e );
-        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(vista, "Error: " + e.getMessage());
     }
+}
     
     //Codigo de la venntana Ciudad
     public void agregarCiudad() {

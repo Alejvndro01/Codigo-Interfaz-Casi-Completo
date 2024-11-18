@@ -94,6 +94,21 @@ public class CiudadOperaciones {
         }
         return r;
     }
+    
+    public int eliminarPorCodigoPais(String codigoPais) {
+    int r = 0;
+    String sql = "DELETE FROM ciudad WHERE codigoPais = ?";
+    try {
+        con = conectar.getConnection();
+        ps = con.prepareStatement(sql);
+        ps.setString(1, codigoPais);
+        r = ps.executeUpdate();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al eliminar ciudades: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    return r;
+}
+    
     public List<Ciudad> ConsultarCiudad(String nombre){
         List<Ciudad> ciudades = new ArrayList<>();
         String sql = "SELECT * FROM ciudad WHERE nombreCiudad = ?";

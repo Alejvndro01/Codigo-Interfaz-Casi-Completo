@@ -90,6 +90,21 @@ public class IdiomaOperaciones {
         }
         return r;
     }
+    
+    public int eliminarPorCodigoPais(String codigoPais) {
+    int r = 0;
+    String sql = "DELETE FROM idioma WHERE codigoPais = ?";
+    try {
+        con = conectar.getConnection();
+        ps = con.prepareStatement(sql);
+        ps.setString(1, codigoPais);
+        r = ps.executeUpdate();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al eliminar idiomas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    return r;
+}
+    
     public List<Idioma> ConsultarIdioma(String nombre){
         List<Idioma> idiomas = new ArrayList<>();
         String sql = "SELECT * FROM idioma WHERE nombreIdioma = ?";

@@ -14,7 +14,6 @@ public class Ciudad {
         this.poblacionCiudad = poblacionc;
         this.codigoCiudad = codigoc;
         this.IDCiudad = idc; 
-        
     }
 
     public String getCodigoC() {
